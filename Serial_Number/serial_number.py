@@ -60,7 +60,49 @@ def rename_files(folder_path, file_type):
         os.rename(old_file, new_file)
         print(f"Renamed {file} to {new_name}")
 
-# 使用函数
-folder_path = ''  # 替换成你的文件夹路径
+import os
+import shutil
+
+def flatten_and_organize(source_folder, target_folder):
+    
+    os.makedirs(target_folder, exist_ok=True)
+    
+    for root, dirs, files in os.walk(source_folder):
+        for file in files:
+            
+            file_path = os.path.join(root, file)
+            
+            shutil.move(file_path, target_folder)
+        
+        if not os.listdir(root):
+            os.rmdir(root)
+
+    #分類檔案
+    for file in os.listdir(target_folder):
+        file_path = os.path.join(target_folder, file)
+        if file.lower().endswith(('.png', '.jpg', '.jpeg', '.gif', '.bmp')):
+            #照片類型
+            photo_folder = os.path.join(target_folder, 'P')
+            os.makedirs(photo_folder, exist_ok=True)
+            shutil.move(file_path, photo_folder)
+        elif file.lower().endswith(('.mp4', '.avi', '.mov', '.mkv')):
+            # 影片類型
+            video_folder = os.path.join(target_folder, 'V')
+            os.makedirs(video_folder, exist_ok=True)
+            shutil.move(file_path, video_folder)
+
+
+
+
+
+
+
+
+
+
+#---------------------------------------------------------
+folder_path = r'E:\Datafromtelegram\RD3.txt\黄琳琳'  # 替换成你的文件夹路径
 file_type = ''  # 替换成你想要重命名的文件类型# .jpg/ .mp4
-rename_files(folder_path, file_type)
+#rename_files(folder_path, file_type)
+rename_mp4_jpg(folder_path)
+flatten_and_organize(folder_path, folder_path)
