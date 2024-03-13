@@ -60,23 +60,17 @@ def rename_files(folder_path, file_type):
         os.rename(old_file, new_file)
         print(f"Renamed {file} to {new_name}")
 
-import os
-import shutil
-
 def flatten_and_organize(source_folder, target_folder):
     
     os.makedirs(target_folder, exist_ok=True)
     
     for root, dirs, files in os.walk(source_folder):
         for file in files:
-            
             file_path = os.path.join(root, file)
-            
             shutil.move(file_path, target_folder)
         
         if not os.listdir(root):
             os.rmdir(root)
-
     #分類檔案
     for file in os.listdir(target_folder):
         file_path = os.path.join(target_folder, file)
@@ -95,13 +89,13 @@ def flatten_and_organize(source_folder, target_folder):
 
 
 
-
+  
 
 
 
 
 #---------------------------------------------------------
-folder_path = r'E:\Datafromtelegram\RD3.txt\黄琳琳'  # 替换成你的文件夹路径
+folder_path = r''  # 替换成你的文件夹路径
 file_type = ''  # 替换成你想要重命名的文件类型# .jpg/ .mp4
 #rename_files(folder_path, file_type)
 rename_mp4_jpg(folder_path)
