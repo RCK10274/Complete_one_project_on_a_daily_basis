@@ -36,7 +36,7 @@ def get_csv_from_web(file_name, file_type):
 
     for year in range(1964, 2025):
         print(f"下載年分:{year}")
-        for page in tqdm(range(0,3)):
+        for page in tqdm(range(1,11)):
             time.sleep(0.1)
             soup = bs(get_resp(f"https://tdr.lib.ntu.edu.tw/simple-search?query=&sort_by=score&order=desc&rpp=10&filter_field_1=degree&filter_type_1=equals&filter_value_1=%E7%A2%A9%E5%A3%AB&filter_field_2=dateIssued&filter_type_2=contains&filter_value_2={year}&etal=0&subject_page={page}").text, 'lxml')
             panel_heading = soup.find('div', class_='panel-heading', string='關鍵字')
