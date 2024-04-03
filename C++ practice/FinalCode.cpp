@@ -6,48 +6,102 @@
 
 using namespace std;    //使用標準程式庫std
 
+class FinalCode//包裝方法
+{
+    private://私變數，不開放讀取使用的變數
+    int num_min = 0;
+    int num_max = 0;
+    int num_ans = 0;
+
+    public://公變數，反之
+    int range_min = 0;
+    int range_max = 0;
+
+    FinalCode(int min, int max , int ans)//建構子(需要與class同名)，輸入的參數要做什麼內容
+    {
+        num_min = min;
+        num_max = max;
+        num_ans = ans;
+
+        range_min = min;
+        range_max = max;
+    }
+    //超出範圍
+    bool OutOfRange(int guess)
+    {
+        return guess>range_max || guess<range_min;
+    }
+    //比答案大
+    bool MoreThan(int guess)
+    {
+        if (guess>num_ans)
+        {
+            range_max = guess;
+            return true;
+        }
+        else return false;
+    }
+    //比答案小
+    bool LessThan(int guess)
+    {
+        if (guess<num_ans)
+        {
+            range_min = guess;
+            return true;
+        }
+        else return false;
+    }
+    //猜中答案
+    bool Correct(int guess)
+    {
+        if (guess==num_ans)
+        {
+        range_max = guess;
+        range_min = guess;
+        return true;
+        }
+        else return false;
+    }
+};
+
 int main(void)
 {
-
     const int min = 0;
     const int max = 100;
 
-    int range_min = min;
-    int range_max = max;
-
     mt19937 rg(time(NULL));
     uniform_int_distribution<int> dis(min+1, max-1);
-    int target = dis(rg);
+
+    FinalCode cr(min, max, dis(rg));
+
     int guess = 0;
 
     do//先做邏輯在循環還變化
     {
-        cout << "Please guess a number : \t" << range_min << " to " << range_max << endl;
+        cout << "Please guess a number : \t" <<cr. range_min << " to " << cr.range_max << endl;
         cin >> guess;
-        if(guess>range_max || guess<range_min)
+        if(cr.OutOfRange(guess))
         {
             cout << "Enter Error" << endl;
             continue;
         }
 
-        if(guess>target)
+        if(cr.MoreThan(guess))
         {
-            range_max = guess;
             continue;
         }
-        else if(guess<target)
+        else if(cr.LessThan(guess))
         {
-            range_min = guess;
             continue;
         }
         
-        if(guess==target)
+        if(cr.Correct(guess))
         {
             cout << "congratulation!!";
             break;
         }
     }
-    while(guess!=target);
+    while(!cr.Correct(guess));//可在前方加!為反義詞
     {
         system("pause");
     }
